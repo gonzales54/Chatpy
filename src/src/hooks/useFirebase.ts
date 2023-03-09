@@ -1,10 +1,12 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, UserCredential } from "firebase/auth"
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, User, UserCredential } from "firebase/auth"
 import firebaseConfig from "@/config/firebase"
 
 const useFirebase = () => {
+  const google = new GoogleAuthProvider();
   const signInUser = async(email: string, password: string): Promise<UserCredential> => {
     return await signInWithEmailAndPassword(firebaseConfig.auth(), email, password);
   }
+
   const signUpUser = async(name: string, email: string, password: string): Promise<UserCredential> => {
     const createdUser = await createUserWithEmailAndPassword(firebaseConfig.auth(), email, password);
     await updateProfile(createdUser.user, {
@@ -12,11 +14,17 @@ const useFirebase = () => {
     });
     return createdUser;
   }
-  const googleSignIn = () => {
 
+  const signOutUser = (): void => {
+    signOut(firebaseConfig.auth());
   }
 
-  return { signInUser, signUpUser, googleSignIn }
+  const googleAuthentication = async(): Promise<UserCredential> => {
+    const user = await signInWithPopup(firebaseConfig.auth(), google);
+    return user;
+  }
+
+  return { signInUser, signUpUser, signOutUser, googleAuthentication }
 }
 
 export default useFirebase;

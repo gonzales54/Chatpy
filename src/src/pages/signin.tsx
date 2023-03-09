@@ -1,15 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import GoogleImage from "@Image/google.png";
 import SignInImage from "@Image/signin.svg";
-import useFirebase from "@/hooks/useFirebase";
+import style from '@/styles/app.module.css'
 
 export default function SignIn() {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
-  const { signInUser } = useFirebase();
+  const { signInUser, googleAuthentication } = useFirebase();
 
   const submitFormForSignIn = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ export default function SignIn() {
     const password = e?.target.password.value;
 
     const user = await signInUser(email, password);
-    
+
     e.target.reset();
   };
 
@@ -30,6 +31,8 @@ export default function SignIn() {
   const passwordOpen = () => {
     setPasswordOpen((password) => !password);
   };
+
+  const googleSignIn = () => googleAuthentication;
 
   return (
     <>
@@ -71,6 +74,7 @@ export default function SignIn() {
               name="email"
               id="email"
               className="w-full px-4 py-2 focus:outline-none"
+              placeholder="email@email.com"
             />
           </div>
           <div className="mb-10 flex items-center rounded-sm px-4 outline outline-1 outline-gray-400">
@@ -79,6 +83,7 @@ export default function SignIn() {
               name="password"
               id="password"
               className="mr-2 w-full py-2 focus:outline-none"
+              placeholder="password"
             />
             <div onClick={passwordOpen}>
               {isPasswordOpen ? (
@@ -132,10 +137,11 @@ export default function SignIn() {
             サインアップ
           </Link>
         </p>
-        <h3 className="mb-6 text-center font-klee">サインインオプション</h3>
+        <h3 className={`mb-6 text-center font-klee ${style.signText}`}>サインインオプション</h3>
         <button
           type="button"
           className="flex w-full items-center justify-center rounded border border-gray-400 py-2"
+          onClick={googleSignIn}
         >
           <div className="pr-2">
             <Image

@@ -1,0 +1,18 @@
+.signText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signText:before, .signText:after {
+  border-top: 1px solid;
+  content: "";
+  width: 2.5rem; 
+}
+
+.signText:before {
+  margin-right: 1rem; 
+}
+.signText:after {
+  margin-left: 1rem; 
+}

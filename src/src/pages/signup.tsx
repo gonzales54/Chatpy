@@ -1,15 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import GoogleImage from "@Image/google.png";
 import SignUpImage from "@Image/signup.svg";
-import useFirebase from "@/hooks/useFirebase";
+import style from '@/styles/app.module.css'
 
 export default function SignUp() {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
-  const { signUpUser } = useFirebase();
+  const { signUpUser, googleAuthentication } = useFirebase();
   const submitFormForSignUp = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(e?.target instanceof HTMLFormElement)) return;
@@ -31,6 +32,8 @@ export default function SignUp() {
   const passwordOpen = () => {
     setPasswordOpen((password) => !password);
   };
+
+  const googleSignUp = () => googleAuthentication;
 
   return (
     <>
@@ -72,6 +75,7 @@ export default function SignUp() {
               name="username"
               id="username"
               className="w-full px-4 py-2 focus:outline-none"
+              placeholder="username"
             />
           </div>
           <div className="mb-5 outline outline-1 outline-gray-400">
@@ -80,6 +84,7 @@ export default function SignUp() {
               name="email"
               id="email"
               className="w-full px-4 py-2 focus:outline-none"
+              placeholder="email@email.com"
             />
           </div>
           <div className="mb-10 flex items-center rounded-sm px-4 outline outline-1 outline-gray-400">
@@ -88,6 +93,7 @@ export default function SignUp() {
               name="password"
               id="password"
               className="mr-2 w-full py-2 focus:outline-none"
+              placeholder="password"
             />
             <div onClick={passwordOpen}>
               {isPasswordOpen ? (
@@ -131,6 +137,7 @@ export default function SignUp() {
           <button
             type="submit"
             className="w-full rounded bg-teal-500 py-2 font-klee font-bold text-teal-50"
+            onClick={googleSignUp}
           >
             サインアップ
           </button>
@@ -141,7 +148,7 @@ export default function SignUp() {
             サインイン
           </Link>
         </p>
-        <h3 className="mb-6 text-center font-klee">サインアップオプション</h3>
+        <h3 className={`mb-6 text-center font-klee ${style.signText}`}>サインアップオプション</h3>
         <button
           type="button"
           className="flex w-full items-center justify-center rounded border border-gray-400 py-2"

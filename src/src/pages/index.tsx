@@ -1,9 +1,8 @@
-import { onAuthStateChanged, User } from "firebase/auth";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import AppImage from "@Image/app.svg";
 
