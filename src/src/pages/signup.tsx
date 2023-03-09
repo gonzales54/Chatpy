@@ -4,11 +4,13 @@ import { FormEvent, useState } from "react";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import GoogleImage from "@Image/google.png";
 import SignUpImage from "@Image/signup.svg";
+import useFirebase from "@/hooks/useFirebase";
 
 export default function SignUp() {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
-  const submitFormForSignUp = (e: FormEvent<HTMLFormElement>) => {
+  const { signUpUser } = useFirebase();
+  const submitFormForSignUp = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(e?.target instanceof HTMLFormElement)) return;
 
@@ -16,7 +18,9 @@ export default function SignUp() {
     const email = e?.target.email.value;
     const password = e?.target.password.value;
 
-    console.log(username, email, password)
+    const user = await signUpUser(username, email, password);
+    console.log(user)
+
     e.target.reset();
   };
 

@@ -4,18 +4,22 @@ import { FormEvent, useState } from "react";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import GoogleImage from "@Image/google.png";
 import SignInImage from "@Image/signin.svg";
+import useFirebase from "@/hooks/useFirebase";
 
 export default function SignIn() {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
-  const submitFormForSignUp = (e: FormEvent<HTMLFormElement>) => {
+  const { signInUser } = useFirebase();
+
+  const submitFormForSignIn = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(e?.target instanceof HTMLFormElement)) return;
 
     const email = e?.target.email.value;
     const password = e?.target.password.value;
 
-    console.log(name, email, password)
+    const user = await signInUser(email, password);
+    
     e.target.reset();
   };
 
@@ -60,7 +64,7 @@ export default function SignIn() {
         <h2 className="mb-8 font-klee text-[2rem] font-bold text-gray-800">
           サインイン
         </h2>
-        <form onSubmit={submitFormForSignUp}>
+        <form onSubmit={submitFormForSignIn}>
           <div className="mb-5 rounded-sm outline outline-1 outline-gray-400">
             <input
               type="email"

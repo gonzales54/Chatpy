@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { Auth, getAuth } from 'firebase/auth';
+import { Firestore, getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   init: () => {
@@ -15,8 +15,8 @@ const firebaseConfig = {
       measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
     });
   },
-  auth: () => getAuth(),
-  db: () =>  getFirestore()
+  auth: (): Auth => getAuth(),
+  db: (): Firestore =>  getFirestore()
 }
 
 firebaseConfig.init();
