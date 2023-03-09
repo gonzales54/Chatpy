@@ -6,7 +6,6 @@ import Link from "next/link";
 import { MouseEvent, useEffect, useState } from "react";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import AppImage from "@Image/app.svg";
-import firebaseConfig from "@/config/firebase";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,13 +15,6 @@ export default function Home() {
     signIn: false,
   });
   const redirectTo = useRedirectTo();
-  const { auth } = firebaseConfig();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser: User | null) => {
-      console.log(currentUser)
-    })
-  }, []);
 
   function handleHoverButton(e: MouseEvent<HTMLButtonElement>) {
     if (!(e.target instanceof HTMLButtonElement)) return;

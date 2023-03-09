@@ -9,21 +9,15 @@ export default function SignUp() {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
   const submitFormForSignUp = (e: FormEvent<HTMLFormElement>) => {
-    if(!(e.target instanceof HTMLFormElement)) return;
-    
     e.preventDefault();
+    if (!(e?.target instanceof HTMLFormElement)) return;
 
-    const target = e.target as typeof e.target & {
-      name: {
-        value: string;
-      };
-      email: {
-        value: string;
-      };
-      password: {
-        value: string;
-      }
-    }
+    const username = e?.target.username.value;
+    const email = e?.target.email.value;
+    const password = e?.target.password.value;
+
+    console.log(username, email, password)
+    e.target.reset();
   };
 
   const backToPreviousPage = () => {
@@ -71,8 +65,8 @@ export default function SignUp() {
           <div className="mb-5 rounded-sm outline outline-1 outline-gray-400">
             <input
               type="text"
-              name="name"
-              id="name"
+              name="username"
+              id="username"
               className="w-full px-4 py-2 focus:outline-none"
             />
           </div>

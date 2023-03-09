@@ -10,16 +10,13 @@ export default function SignIn() {
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
   const submitFormForSignUp = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(!(e.target instanceof HTMLFormElement)) return;
+    if (!(e?.target instanceof HTMLFormElement)) return;
 
-    const target = e.target as typeof e.target & {
-      email: {
-        value: string;
-      };
-      password: {
-        value: string;
-      }
-    }
+    const email = e?.target.email.value;
+    const password = e?.target.password.value;
+
+    console.log(name, email, password)
+    e.target.reset();
   };
 
   const backToPreviousPage = () => {
