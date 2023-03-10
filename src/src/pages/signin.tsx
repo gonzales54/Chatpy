@@ -7,7 +7,7 @@ import style from '@/styles/app.module.css'
 import GoogleImage from "@Image/google.png";
 import SignInImage from "@Image/signin.svg";
 
-export default function SignIn() {
+export default function SignIn(): JSX.Element {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
   const { signInUser, googleAuthentication } = useFirebase();
@@ -21,6 +21,11 @@ export default function SignIn() {
 
     const user = await signInUser(email, password);
 
+    if(typeof user === 'string') {
+      console.log(user)
+    }
+
+    redirectTo('/');
     e.target.reset();
   };
 
@@ -72,7 +77,7 @@ export default function SignIn() {
               name="email"
               id="email"
               className="w-full px-4 py-2 focus:outline-none"
-              placeholder="email@email.com"
+              placeholder="Eメール"
             />
           </div>
           <div className="mb-10 flex items-center rounded-sm px-4 outline outline-1 outline-gray-400">
@@ -81,7 +86,7 @@ export default function SignIn() {
               name="password"
               id="password"
               className="mr-2 w-full py-2 focus:outline-none"
-              placeholder="password"
+              placeholder="パスワード"
             />
             <div onClick={passwordOpen}>
               {isPasswordOpen ? (
@@ -129,7 +134,7 @@ export default function SignIn() {
             サインイン
           </button>
         </form>
-        <p className="mt-2 mb-8 text-right text-xs">
+        <p className="mt-2 mb-8 text-right font-klee text-xs">
           アカウントを持ってない場合、
           <Link href={"/signup"} className="text-rose-500">
             サインアップ

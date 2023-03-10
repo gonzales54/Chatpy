@@ -8,7 +8,7 @@ import AppImage from "@Image/app.svg";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home(): JSX.Element {
   const [active, setActive] = useState({
     signUp: true,
     signIn: false,
@@ -55,7 +55,7 @@ export default function Home() {
         <div>
           <button
             id="signUp"
-            className={`rounded px-12 py-3 font-poppins text-xs ${
+            className={`rounded px-10 py-3 font-poppins text-xs ${
               active.signUp
                 ? "bg-teal-500 text-gray-50"
                 : "bg-gray-100 text-gray-800"
@@ -63,11 +63,11 @@ export default function Home() {
             onClick={() => handleClickButton("/signup")}
             onMouseOver={handleHoverButton}
           >
-            Sign Up
+            サインアウト
           </button>
           <button
             id="signIn"
-            className={`rounded px-12 py-3 font-poppins text-xs ${
+            className={`rounded px-10 py-3 font-poppins text-xs ${
               active.signIn
                 ? "bg-teal-500 text-gray-50"
                 : "bg-gray-100 text-gray-800"
@@ -75,7 +75,7 @@ export default function Home() {
             onClick={() => handleClickButton("/signin")}
             onMouseOver={handleHoverButton}
           >
-            Sign In
+            サインイン
           </button>
         </div>
       </div>

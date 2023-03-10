@@ -4,25 +4,39 @@ import firebaseConfig from "@/config/firebase"
 
 const useFirebase = () => {
   const google = new GoogleAuthProvider();
-  const signInUser = async(email: string, password: string): Promise<UserCredential> => {
-    return await signInWithEmailAndPassword(firebaseConfig.auth(), email, password);
+  const signInUser = async(email: string, password: string): Promise<UserCredential | string | undefined> => {
+    try {
+      return await signInWithEmailAndPassword(firebaseConfig.auth(), email, password);
+    } catch(e) {
+      if(e instanceof Error) {
+        const errorMessage = e.message.split("auth/")[1].replace(/\)/, '');
+        return errorMessage;
+      }
+    }
   }
 
-  const signUpUser = async(name: string, email: string, password: string): Promise<UserCredential> => {
-    const user = await createUserWithEmailAndPassword(firebaseConfig.auth(), email, password);
-    const userDoc = await getDoc(doc(firebaseConfig.db(), "users", user.user.uid));
-    await updateProfile(user.user, {
-      displayName: name
-    });
+  const signUpUser = async(name: string, email: string, password: string): Promise<string | UserCredential | undefined> => {
+    try {
+      const user = await createUserWithEmailAndPassword(firebaseConfig.auth(), email, password);
+      const userDoc = await getDoc(doc(firebaseConfig.db(), "users", user.user.uid));
+      await updateProfile(user.user, {
+        displayName: name
+      });
 
-    if(!userDoc.exists()) {
-      await setDoc(doc(firebaseConfig.db(), "users", user.user.uid), {
-        username: user.user.displayName,
-        email: user.user.email
-      });   
+      if(!userDoc.exists()) {
+        await setDoc(doc(firebaseConfig.db(), "users", user.user.uid), {
+          username: user.user.displayName,
+          email: user.user.email
+        });   
+      }
+      
+      return user;
+    } catch(e) {
+      if(e instanceof Error) {
+        const errorMessage = e.message.split("auth/")[1].replace(/\)/, '');
+        return errorMessage;
+      }
     }
-    
-    return user;
   }
 
   const signOutUser = (): void => {

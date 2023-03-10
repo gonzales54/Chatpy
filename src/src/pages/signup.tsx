@@ -7,7 +7,7 @@ import style from '@/styles/app.module.css'
 import GoogleImage from "@Image/google.png";
 import SignUpImage from "@Image/signup.svg";
 
-export default function SignUp() {
+export default function SignUp(): JSX.Element {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
   const { signUpUser, googleAuthentication } = useFirebase();
@@ -20,7 +20,11 @@ export default function SignUp() {
     const password = e?.target.password.value;
 
     const user = await signUpUser(username, email, password);
+    if(typeof user === 'string') {
+      console.log(user)
+    }
 
+    redirectTo('/');
     e.target.reset();
   };
 
@@ -72,7 +76,7 @@ export default function SignUp() {
               name="username"
               id="username"
               className="w-full px-4 py-2 focus:outline-none"
-              placeholder="username"
+              placeholder="ユーザーネーム"
             />
           </div>
           <div className="mb-5 outline outline-1 outline-gray-400">
@@ -81,7 +85,7 @@ export default function SignUp() {
               name="email"
               id="email"
               className="w-full px-4 py-2 focus:outline-none"
-              placeholder="email@email.com"
+              placeholder="Eメール"
             />
           </div>
           <div className="mb-10 flex items-center rounded-sm px-4 outline outline-1 outline-gray-400">
@@ -90,7 +94,7 @@ export default function SignUp() {
               name="password"
               id="password"
               className="mr-2 w-full py-2 focus:outline-none"
-              placeholder="password"
+              placeholder="パスワード"
             />
             <div onClick={passwordOpen}>
               {isPasswordOpen ? (
@@ -138,7 +142,7 @@ export default function SignUp() {
             サインアップ
           </button>
         </form>
-        <p className="mt-2 mb-8 text-right text-xs">
+        <p className="mt-2 mb-8 text-right font-klee text-xs">
           アカウントを持っている場合、
           <Link href={"/signin"} className="text-rose-500">
             サインイン
