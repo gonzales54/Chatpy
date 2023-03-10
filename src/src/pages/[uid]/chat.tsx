@@ -14,7 +14,7 @@ export default function chat() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
-          <h1 className="font-courgette text-xs">Chatpy</h1>
+          <h1 className="font-courgette text-sm">Chatpy</h1>
         </div>
         <div className='h-full pt-6 pb-4 px-4 bg-teal-400 overflow-y-scroll'>
           <div className='flex'>
