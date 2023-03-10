@@ -3,9 +3,9 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
+import style from '@/styles/app.module.css'
 import GoogleImage from "@Image/google.png";
 import SignUpImage from "@Image/signup.svg";
-import style from '@/styles/app.module.css'
 
 export default function SignUp() {
   const redirectTo = useRedirectTo();
@@ -20,7 +20,6 @@ export default function SignUp() {
     const password = e?.target.password.value;
 
     const user = await signUpUser(username, email, password);
-    console.log(user)
 
     e.target.reset();
   };
@@ -32,8 +31,6 @@ export default function SignUp() {
   const passwordOpen = () => {
     setPasswordOpen((password) => !password);
   };
-
-  const googleSignUp = () => googleAuthentication;
 
   return (
     <>
@@ -137,7 +134,6 @@ export default function SignUp() {
           <button
             type="submit"
             className="w-full rounded bg-teal-500 py-2 font-klee font-bold text-teal-50"
-            onClick={googleSignUp}
           >
             サインアップ
           </button>
@@ -148,10 +144,11 @@ export default function SignUp() {
             サインイン
           </Link>
         </p>
-        <h3 className={`mb-6 text-center font-klee ${style.signText}`}>サインアップオプション</h3>
+        <h3 className={`mb-6 text-center font-klee text-gray-800 ${style.signText}`}>サインアップオプション</h3>
         <button
           type="button"
           className="flex w-full items-center justify-center rounded border border-gray-400 py-2"
+          onClick={googleAuthentication}
         >
           <div className="pr-2">
             <Image

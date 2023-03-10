@@ -3,9 +3,9 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
+import style from '@/styles/app.module.css'
 import GoogleImage from "@Image/google.png";
 import SignInImage from "@Image/signin.svg";
-import style from '@/styles/app.module.css'
 
 export default function SignIn() {
   const redirectTo = useRedirectTo();
@@ -31,8 +31,6 @@ export default function SignIn() {
   const passwordOpen = () => {
     setPasswordOpen((password) => !password);
   };
-
-  const googleSignIn = () => googleAuthentication;
 
   return (
     <>
@@ -137,11 +135,11 @@ export default function SignIn() {
             サインアップ
           </Link>
         </p>
-        <h3 className={`mb-6 text-center font-klee ${style.signText}`}>サインインオプション</h3>
+        <h3 className={`mb-6 text-center font-klee text-gray-800 ${style.signText}`}>サインインオプション</h3>
         <button
           type="button"
           className="flex w-full items-center justify-center rounded border border-gray-400 py-2"
-          onClick={googleSignIn}
+          onClick={googleAuthentication}
         >
           <div className="pr-2">
             <Image
