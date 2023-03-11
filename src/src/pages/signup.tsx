@@ -36,6 +36,12 @@ export default function SignUp(): JSX.Element {
     setPasswordOpen((password) => !password);
   };
 
+  const signUpWithGoogle = async() => {
+    const user = await googleAuthentication();
+    if(!user)  return;
+    redirectTo(`/${user.user.uid}/home`);
+  }
+
   return (
     <>
       <div className="flex h-screen w-full flex-col px-10 pt-8">
@@ -152,7 +158,7 @@ export default function SignUp(): JSX.Element {
         <button
           type="button"
           className="flex w-full items-center justify-center rounded border border-gray-400 py-2"
-          onClick={googleAuthentication}
+          onClick={signUpWithGoogle}
         >
           <div className="pr-2">
             <Image

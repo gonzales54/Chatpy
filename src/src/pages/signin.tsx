@@ -21,11 +21,10 @@ export default function SignIn(): JSX.Element {
 
     const user = await signInUser(email, password);
 
-    if(typeof user === 'string') {
-      console.log(user)
+    if(typeof user !== 'string' || 'undefined') {
+      redirectTo(`/${user?.user.uid}/home`);
     }
 
-    redirectTo('/');
     e.target.reset();
   };
 
@@ -36,6 +35,12 @@ export default function SignIn(): JSX.Element {
   const passwordOpen = () => {
     setPasswordOpen((password) => !password);
   };
+
+  const signInWithGoogle = async() => {
+    const user = await googleAuthentication();
+    if(!user)  return;
+    redirectTo(`/${user.user.uid}/home`);
+  }
 
   return (
     <>
@@ -144,7 +149,7 @@ export default function SignIn(): JSX.Element {
         <button
           type="button"
           className="flex w-full items-center justify-center rounded border border-gray-400 py-2"
-          onClick={googleAuthentication}
+          onClick={signInWithGoogle}
         >
           <div className="pr-2">
             <Image
