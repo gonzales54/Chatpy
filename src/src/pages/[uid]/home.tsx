@@ -5,12 +5,16 @@ import { useState } from "react";
 import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import ProfileImage from '@Image/profile.jpg'
+import { useRecoilValue } from "recoil";
+import authUser from "@/store/authUser";
+import { User } from "firebase/auth";
 
 export default function UserHome() {
   const [isOptionOpen, setOptionOpen] = useState<boolean>(false);
   const redirectTo = useRedirectTo();
   const router = useRouter();
   const { signOutUser } = useFirebase();
+  const user: User | null = useRecoilValue(authUser);
 
   const openOption = () => {
     setOptionOpen((option) => !option);
@@ -46,7 +50,7 @@ export default function UserHome() {
           </p>
         </div>
         <div className="px-10 text-right">
-          <h2 className="mb-4 text-left font-klee text-2xl font-semibold">Test</h2>
+          <h2 className="mb-4 text-left font-klee text-2xl font-semibold">{user!.displayName}</h2>
           <p className="mb-4 text-left font-klee text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           <Link href="/" className="font-klee text-xs text-gray-400">ユーザー情報編集</Link>
         </div>

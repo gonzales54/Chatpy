@@ -6,11 +6,15 @@ import useRedirectTo from "@/hooks/useRedirectTo";
 import style from '@/styles/app.module.css'
 import GoogleImage from "@Image/google.png";
 import SignInImage from "@Image/signin.svg";
+import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
+import authUser from "@/store/authUser";
+import { User } from "firebase/auth";
 
 export default function SignIn(): JSX.Element {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
   const { signInUser, googleAuthentication } = useFirebase();
+  const setUser = useSetRecoilState(authUser);
 
   const submitFormForSignIn = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,8 +25,11 @@ export default function SignIn(): JSX.Element {
 
     const user = await signInUser(email, password);
 
+    if(!user) return;
+
     if(typeof user !== 'string' || 'undefined') {
-      redirectTo(`/${user?.user.uid}/home`);
+      setUser(JSON.parse(JSON.stringify(user.user)));
+      redirectTo(`/${user!.user.uid}/home`);
     }
 
     e.target.reset();
@@ -38,7 +45,9 @@ export default function SignIn(): JSX.Element {
 
   const signInWithGoogle = async() => {
     const user = await googleAuthentication();
-    if(!user)  return;
+    if(!user) return;
+    setUser(JSON.parse(JSON.stringify(user.user)));
+
     redirectTo(`/${user.user.uid}/home`);
   }
 

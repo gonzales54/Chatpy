@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router"
 import ProfileImage from '@Image/profile.jpg'
+import { useRecoilValue } from "recoil";
+import authUser from "@/store/authUser";
 
 export default function User() {
   const router = useRouter();
