@@ -1,36 +1,30 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router"
-import useFirebase from "@/hooks/useFirebase"
 import ProfileImage from '@Image/profile.jpg'
 
 export default function User() {
   const router = useRouter();
-  const { signOutUser } = useFirebase();
-
-  console.log(router.asPath)
 
   return (
     <>
       <div className="flex h-screen w-full flex-col">
-        <div className="mb-6 flex items-center justify-between border-b border-gray-300 px-6 py-3">
+        <div className="mb-6 flex items-center justify-between border-b border-gray-300 px-6 py-2">
           <h1 className="font-courgette text-sm">Chatpy</h1>
           <p>
-            <Link href={"/"}>
-              <Image
-                src={ProfileImage}
-                alt="SignIn Icon"
-                className="h-8 w-8 rounded-full object-cover"
-                priority
-              />              
-            </Link>
+            <Image
+              src={ProfileImage}
+              alt="SignIn Icon"
+              className="h-8 w-8 rounded-full object-cover"
+              priority
+            />       
           </p>
         </div>
         <div>
           <h2 className="mb-4 px-6 font-klee text-xs">メッセージ一覧</h2>
           <ul>
             <li>
-              <Link href="/" className="flex px-6 py-2">
+              <Link href="/user" className="flex px-6 py-2">
                 <p className="mr-4">
                   <Image
                     src={ProfileImage}

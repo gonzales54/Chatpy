@@ -1,31 +1,39 @@
-import { signOut } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import firebaseConfig from "@/config/firebase";
+import { useState } from "react";
+import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import ProfileImage from '@Image/profile.jpg'
 
 export default function UserHome() {
+  const [isOptionOpen, setOptionOpen] = useState<boolean>(false);
   const redirectTo = useRedirectTo();
   const router = useRouter();
-  console.log(router.asPath)
+  const { signOutUser } = useFirebase();
 
-  useEffect(() => {
-    signOut(firebaseConfig.auth())
-  },[])
+  const openOption = () => {
+    setOptionOpen((option) => !option);
+  }
+
+  const LogOut = () => {
+    signOutUser();
+    redirectTo('/signin');
+  }
 
   return (
     <>
       <div className="flex h-screen w-full flex-col">
-        <div className="flex items-center border-b border-gray-300 px-4 py-3">
-          <button className="mr-2" onClick={() => redirectTo('/')}>
+        <div className="relative flex items-center border-b border-gray-300 px-6 py-3">
+          <h1 className="font-klee font-semibold">Test</h1>
+          <button className="ml-auto" onClick={openOption}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
             </svg>
           </button>
-          <h1 className="font-klee text-sm">Test</h1>
+          <div className={`absolute top-10 right-6 z-10 rounded border border-gray-400 bg-white py-2 ${isOptionOpen ? "block" : "hidden"}`}>
+            <button className="w-full px-6 py-1 text-sm" onClick={LogOut}>Logout</button>
+          </div>
         </div>
         <div className="relative mb-10 h-36 w-full bg-teal-900">
           <p className="absolute -bottom-5 left-8">
@@ -40,7 +48,7 @@ export default function UserHome() {
         <div className="px-10 text-right">
           <h2 className="mb-4 text-left font-klee text-2xl font-semibold">Test</h2>
           <p className="mb-4 text-left font-klee text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <Link href="/" className="text-xs text-gray-400">ユーザー情報編集</Link>
+          <Link href="/" className="font-klee text-xs text-gray-400">ユーザー情報編集</Link>
         </div>
         <ul className="mt-auto flex items-center justify-center border-t border-gray-300 px-6 py-2">
           <li className="mr-8">

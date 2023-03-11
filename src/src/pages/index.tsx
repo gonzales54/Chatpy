@@ -54,20 +54,8 @@ export default function Home(): JSX.Element {
         </p>
         <div>
           <button
-            id="signUp"
-            className={`rounded px-10 py-3 font-poppins text-xs ${
-              active.signUp
-                ? "bg-teal-500 text-gray-50"
-                : "bg-gray-100 text-gray-800"
-            }`}
-            onClick={() => handleClickButton("/signup")}
-            onMouseOver={handleHoverButton}
-          >
-            サインアウト
-          </button>
-          <button
             id="signIn"
-            className={`rounded px-10 py-3 font-poppins text-xs ${
+            className={`rounded px-10 py-3 font-poppins text-xs duration-300 ${
               active.signIn
                 ? "bg-teal-500 text-gray-50"
                 : "bg-gray-100 text-gray-800"
@@ -76,6 +64,18 @@ export default function Home(): JSX.Element {
             onMouseOver={handleHoverButton}
           >
             サインイン
+          </button>
+          <button
+            id="signUp"
+            className={`rounded px-10 py-3 font-poppins text-xs duration-300 ${
+              active.signUp
+                ? "bg-teal-500 text-gray-50"
+                : "bg-gray-100 text-gray-800"
+            }`}
+            onClick={() => handleClickButton("/signup")}
+            onMouseOver={handleHoverButton}
+          >
+            サインアップ
           </button>
         </div>
       </div>
