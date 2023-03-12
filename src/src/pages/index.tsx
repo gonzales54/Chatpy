@@ -10,8 +10,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home(): JSX.Element {
   const [active, setActive] = useState({
-    signUp: true,
-    signIn: false,
+    signIn: true,
+    signUp: false,
   });
   const redirectTo = useRedirectTo();
 

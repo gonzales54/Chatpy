@@ -1,8 +1,8 @@
 import { User } from "firebase/auth";
-import { atom, RecoilState } from "recoil";
+import { atom } from "recoil";
 
 const authUser = atom<User | null>({
-  key: 'authUser',
+  key: 'authUserKey',
   default: null
 });
 

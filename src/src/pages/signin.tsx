@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { useSetRecoilState } from "recoil";
 import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
+import authUser from "@/store/authUser";
 import style from '@/styles/app.module.css'
 import GoogleImage from "@Image/google.png";
 import SignInImage from "@Image/signin.svg";
-import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
-import authUser from "@/store/authUser";
-import { User } from "firebase/auth";
 
 export default function SignIn(): JSX.Element {
   const redirectTo = useRedirectTo();
@@ -29,7 +28,7 @@ export default function SignIn(): JSX.Element {
 
     if(typeof user !== 'string' || 'undefined') {
       setUser(JSON.parse(JSON.stringify(user.user)));
-      redirectTo(`/${user!.user.uid}/home`);
+      redirectTo(`/${user!.user.displayName}/home`);
     }
 
     e.target.reset();
@@ -48,7 +47,7 @@ export default function SignIn(): JSX.Element {
     if(!user) return;
     setUser(JSON.parse(JSON.stringify(user.user)));
 
-    redirectTo(`/${user.user.uid}/home`);
+    redirectTo(`/${user.user.displayName}/home`);
   }
 
   return (
@@ -71,9 +70,7 @@ export default function SignIn(): JSX.Element {
               />
             </svg>
           </button>
-          <h1 className="mr-auto pr-7 font-courgette text-gray-800">
-            <Link href={"/"}>Chatpy</Link>
-          </h1>
+          <h1 className="mr-auto pr-7 font-courgette text-gray-800">Chatpy</h1>
         </div>
         <Image
           src={SignInImage}

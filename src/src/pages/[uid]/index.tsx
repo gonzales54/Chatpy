@@ -2,24 +2,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router"
 import ProfileImage from '@Image/profile.jpg'
+import UserGuard from "@/components/UserGuard";
 import { useRecoilValue } from "recoil";
 import authUser from "@/store/authUser";
 
 export default function User() {
   const router = useRouter();
+  const user = useRecoilValue(authUser);
 
   return (
     <>
+      <UserGuard>
+      </UserGuard>
       <div className="flex h-screen w-full flex-col">
         <div className="mb-6 flex items-center justify-between border-b border-gray-300 px-6 py-2">
           <h1 className="font-courgette text-sm">Chatpy</h1>
           <p>
             <Image
-              src={ProfileImage}
+              src={user ? user.photoURL! : ''}
               alt="SignIn Icon"
-              className="h-8 w-8 rounded-full object-cover"
+              className="rounded-full object-cover"
+              width={32}
+              height={32}
               priority
-            />       
+            />
           </p>
         </div>
         <div>
