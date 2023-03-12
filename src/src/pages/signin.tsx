@@ -8,11 +8,13 @@ import authUser from "@/store/authUser";
 import style from '@/styles/app.module.css'
 import GoogleImage from "@Image/google.png";
 import SignInImage from "@Image/signin.svg";
+import { doc } from "firebase/firestore";
+import firebaseConfig from "@/config/firebase";
 
 export default function SignIn(): JSX.Element {
   const redirectTo = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
-  const { signInUser, googleAuthentication } = useFirebase();
+  const { signInUser, googleAuthentication, getPhotoFromStorage } = useFirebase();
   const setUser = useSetRecoilState(authUser);
 
   const submitFormForSignIn = async(e: FormEvent<HTMLFormElement>) => {
@@ -27,6 +29,7 @@ export default function SignIn(): JSX.Element {
     if(!user) return;
 
     if(typeof user !== 'string' || 'undefined') {
+      const userData = doc(firebaseConfig.db(), "users", user.user.uid);
       setUser(JSON.parse(JSON.stringify(user.user)));
       redirectTo(`/${user!.user.displayName}/home`);
     }

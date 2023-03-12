@@ -1,9 +1,9 @@
+import { onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
-import authUser from "@/store/authUser";
-import { ReactElement, ReactNode, useEffect } from "react";
-import { onAuthStateChanged, User, UserCredential } from "firebase/auth";
+import { ReactNode, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import firebaseConfig from "@/config/firebase";
+import authUser from "@/store/authUser";
 
 const UserGuard = ({children} : {children: ReactNode | ReactNode[]}) => {
   const [user, setUser] = useRecoilState(authUser);
@@ -11,6 +11,7 @@ const UserGuard = ({children} : {children: ReactNode | ReactNode[]}) => {
 
   useEffect(() => {
     onAuthStateChanged(firebaseConfig.auth(), (currentUser: User | null) => {
+      console.log(currentUser)
       if(!currentUser && router.pathname !== '/') {
         router.push('/');
       }

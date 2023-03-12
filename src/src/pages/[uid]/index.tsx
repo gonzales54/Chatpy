@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router"
-import ProfileImage from '@Image/profile.jpg'
-import UserGuard from "@/components/UserGuard";
 import { useRecoilValue } from "recoil";
+import UserGuard from "@/components/UserGuard";
 import authUser from "@/store/authUser";
+import ProfileImage from '@Image/profile.jpg'
 
 export default function User() {
   const router = useRouter();

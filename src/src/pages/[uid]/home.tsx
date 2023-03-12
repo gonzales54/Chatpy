@@ -1,14 +1,13 @@
+import { User } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import UserGuard from "@/components/UserGuard";
 import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
-import ProfileImage from '@Image/profile.jpg'
-import { useRecoilValue } from "recoil";
 import authUser from "@/store/authUser";
-import { User } from "firebase/auth";
-import UserGuard from "@/components/UserGuard";
 
 export default function UserHome() {
   const [isOptionOpen, setOptionOpen] = useState<boolean>(false);

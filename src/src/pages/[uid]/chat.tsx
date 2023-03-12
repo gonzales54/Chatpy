@@ -14,9 +14,9 @@ export default function Chat() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
-          <h1 className="font-courgette text-sm">Chatpy</h1>
+          <h1 className="font-klee text-sm font-semibold">Test</h1>
         </div>
-        <div className='h-full overflow-y-scroll bg-teal-400 px-4 pt-6 pb-4'>
+        <div className='h-full overflow-y-scroll bg-teal-500 px-4 pt-6 pb-4'>
           <div className='flex'>
             <p className='mr-4'>
               <Image
@@ -35,7 +35,7 @@ export default function Chat() {
           </div>
         </div>
         <form className="mt-auto flex items-center justify-between border-t border-gray-400 p-2">
-          <input type="text" name="message" id="message" className=" mr-3 w-full rounded-sm border border-gray-500 px-3 py-1 text-sm focus:outline-none"/>
+          <input type="text" name="message" id="message" className=" mr-3 w-full rounded-sm border border-gray-400 px-3 py-1 text-sm focus:outline-none"/>
           <button type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />

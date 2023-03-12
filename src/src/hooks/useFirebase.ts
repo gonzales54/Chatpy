@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, UserCredential } from "firebase/auth"
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import firebaseConfig from "@/config/firebase"
+import { ref } from "firebase/storage";
 
 const useFirebase = () => {
   const google = new GoogleAuthProvider();
@@ -16,6 +17,7 @@ const useFirebase = () => {
   }
 
   const signUpUser = async(name: string, email: string, password: string): Promise<UserCredential | undefined> => {
+    const photoRef = ref(firebaseConfig.storage(), "user.svg");
     try {
       const user = await createUserWithEmailAndPassword(firebaseConfig.auth(), email, password);
       const userDoc = await getDoc(doc(firebaseConfig.db(), "users", user.user.uid));
@@ -26,7 +28,8 @@ const useFirebase = () => {
       if(!userDoc.exists()) {
         await setDoc(doc(firebaseConfig.db(), "users", user.user.uid), {
           username: user.user.displayName,
-          email: user.user.email
+          email: user.user.email,
+          photoURL: photoRef.fullPath
         });   
       }
       
@@ -50,14 +53,19 @@ const useFirebase = () => {
     if(!userDoc.exists()) {
       await setDoc(doc(firebaseConfig.db(), "users", user.user.uid), {
         username: user.user.displayName,
-        email: user.user.email
+        email: user.user.email,
+        photoURL: user.user.photoURL
       });      
     }
     return user;
   }
 
+  const getPhotoFromStorage = (fileName: string) => {
+    const photoRef = ref(firebaseConfig.storage(), fileName);
+    return photoRef;
+  }
 
-  return { signInUser, signUpUser, signOutUser, googleAuthentication }
+  return { signInUser, signUpUser, signOutUser, googleAuthentication, getPhotoFromStorage }
 }
 
 export default useFirebase;

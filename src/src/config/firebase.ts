@@ -1,6 +1,7 @@
 import { getApps, initializeApp } from 'firebase/app';
 import { Auth, getAuth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
+import { FirebaseStorage, getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   init: () => {
@@ -16,7 +17,8 @@ const firebaseConfig = {
     });
   },
   auth: (): Auth => getAuth(),
-  db: (): Firestore =>  getFirestore()
+  db: (): Firestore => getFirestore(),
+  storage: (): FirebaseStorage => getStorage()
 }
 
 firebaseConfig.init();
