@@ -5,19 +5,17 @@ import { useSetRecoilState } from "recoil";
 import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import authUser from "@/store/authUser";
-import style from '@/styles/app.module.css'
+import style from "@/styles/app.module.css";
 import GoogleImage from "@Image/google.png";
 import SignInImage from "@Image/signin.svg";
-import { doc } from "firebase/firestore";
-import firebaseConfig from "@/config/firebase";
 
 export default function SignIn(): JSX.Element {
-  const redirectTo = useRedirectTo();
+  const { redirectTo } = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
-  const { signInUser, googleAuthentication, getPhotoFromStorage } = useFirebase();
+  const { signInUser, googleAuthentication } = useFirebase();
   const setUser = useSetRecoilState(authUser);
 
-  const submitFormForSignIn = async(e: FormEvent<HTMLFormElement>) => {
+  const submitFormForSignIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(e?.target instanceof HTMLFormElement)) return;
 
@@ -26,10 +24,9 @@ export default function SignIn(): JSX.Element {
 
     const user = await signInUser(email, password);
 
-    if(!user) return;
+    if (!user) return;
 
-    if(typeof user !== 'string' || 'undefined') {
-      const userData = doc(firebaseConfig.db(), "users", user.user.uid);
+    if (typeof user !== "string" || "undefined") {
       setUser(JSON.parse(JSON.stringify(user.user)));
       redirectTo(`/${user!.user.displayName}/home`);
     }
@@ -45,13 +42,13 @@ export default function SignIn(): JSX.Element {
     setPasswordOpen((password) => !password);
   };
 
-  const signInWithGoogle = async() => {
+  const signInWithGoogle = async () => {
     const user = await googleAuthentication();
-    if(!user) return;
+    if (!user) return;
     setUser(JSON.parse(JSON.stringify(user.user)));
 
     redirectTo(`/${user.user.displayName}/home`);
-  }
+  };
 
   return (
     <>
@@ -154,7 +151,11 @@ export default function SignIn(): JSX.Element {
             サインアップ
           </Link>
         </p>
-        <h3 className={`mb-6 text-center font-klee text-gray-800 ${style.signText}`}>サインインオプション</h3>
+        <h3
+          className={`mb-6 text-center font-klee text-gray-800 ${style.signText}`}
+        >
+          サインインオプション
+        </h3>
         <button
           type="button"
           className="flex w-full items-center justify-center rounded border border-gray-400 py-2"

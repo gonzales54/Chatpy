@@ -13,7 +13,7 @@ export default function Home(): JSX.Element {
     signIn: true,
     signUp: false,
   });
-  const redirectTo = useRedirectTo();
+  const { redirectTo } = useRedirectTo();
 
   function handleHoverButton(e: MouseEvent<HTMLButtonElement>) {
     if (!(e.target instanceof HTMLButtonElement)) return;

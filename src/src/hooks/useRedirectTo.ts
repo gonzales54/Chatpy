@@ -2,9 +2,13 @@ import { useRouter } from "next/router";
 
 export default function useRedirectTo() {
   const router = useRouter();
-  function redirectTo(url: string): void {
+  const redirectTo = (url: string): void => {
     router.push(url);
-  }
+  };
 
-  return redirectTo;
+  const redirectPreviousPage = (): void => {
+    router.back();
+  };
+
+  return { redirectTo, redirectPreviousPage };
 }

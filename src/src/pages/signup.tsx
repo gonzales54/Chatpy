@@ -5,16 +5,16 @@ import { useSetRecoilState } from "recoil";
 import useFirebase from "@/hooks/useFirebase";
 import useRedirectTo from "@/hooks/useRedirectTo";
 import authUser from "@/store/authUser";
-import style from '@/styles/app.module.css'
+import style from "@/styles/app.module.css";
 import GoogleImage from "@Image/google.png";
 import SignUpImage from "@Image/signup.svg";
 
 export default function SignUp(): JSX.Element {
-  const redirectTo = useRedirectTo();
+  const { redirectTo } = useRedirectTo();
   const [isPasswordOpen, setPasswordOpen] = useState<boolean>(false);
   const { signUpUser, googleAuthentication } = useFirebase();
   const setUser = useSetRecoilState(authUser);
-  const submitFormForSignUp = async(e: FormEvent<HTMLFormElement>) => {
+  const submitFormForSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(e?.target instanceof HTMLFormElement)) return;
 
@@ -24,14 +24,13 @@ export default function SignUp(): JSX.Element {
 
     const user = await signUpUser(username, email, password);
 
-    if(!user) return;
+    if (!user) return;
 
-    if(typeof user !== 'string' || 'undefined') {
+    if (typeof user !== "string" || "undefined") {
       setUser(JSON.parse(JSON.stringify(user.user)));
       redirectTo(`/${user!.user.displayName}/home`);
     }
 
-    redirectTo('/');
     e.target.reset();
   };
 
@@ -43,12 +42,12 @@ export default function SignUp(): JSX.Element {
     setPasswordOpen((password) => !password);
   };
 
-  const signUpWithGoogle = async() => {
+  const signUpWithGoogle = async () => {
     const user = await googleAuthentication();
-    if(!user)  return;
+    if (!user) return;
     setUser(JSON.parse(JSON.stringify(user.user)));
     redirectTo(`/${user.user.displayName}/home`);
-  }
+  };
 
   return (
     <>
@@ -160,7 +159,11 @@ export default function SignUp(): JSX.Element {
             サインイン
           </Link>
         </p>
-        <h3 className={`mb-6 text-center font-klee text-gray-800 ${style.signText}`}>サインアップオプション</h3>
+        <h3
+          className={`mb-6 text-center font-klee text-gray-800 ${style.signText}`}
+        >
+          サインアップオプション
+        </h3>
         <button
           type="button"
           className="flex w-full items-center justify-center rounded border border-gray-400 py-2"

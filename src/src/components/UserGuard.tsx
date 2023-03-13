@@ -5,27 +5,40 @@ import { useRecoilState } from "recoil";
 import firebaseConfig from "@/config/firebase";
 import authUser from "@/store/authUser";
 
-const UserGuard = ({children} : {children: ReactNode | ReactNode[]}) => {
+const UserGuard = ({ children }: { children: ReactNode | ReactNode[] }) => {
   const [user, setUser] = useRecoilState(authUser);
   const router = useRouter();
+  const origin =
+  /*typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : '';*/
 
   useEffect(() => {
-    onAuthStateChanged(firebaseConfig.auth(), (currentUser: User | null) => {
-      console.log(currentUser)
-      if(!currentUser && router.pathname !== '/') {
-        router.push('/');
-      }
-      setUser(JSON.parse(JSON.stringify(currentUser)));
-    })
+    let isRunUseEffectTwice = false;
+
+    if(!isRunUseEffectTwice) {
+      onAuthStateChanged(firebaseConfig.auth(), (currentUser: User | null) => {
+        if (!currentUser && router.pathname !== "/") {
+          router.push("/");
+        }
+        setUser(JSON.parse(JSON.stringify(currentUser)));
+      });      
+    }
+
+    return () => {
+      isRunUseEffectTwice = true;
+    }
   }, []);
 
-  if(!user) {
+  if (!user) {
     return null;
   }
+  
+  if(!router.asPath.match(new RegExp(encodeURI(user.displayName!)))) {
+    router.back();
+  }
 
-  return (
-    <>{children}</>
-  )
-}
+  return <>{children}</>;
+};
 
 export default UserGuard;

@@ -1,53 +1,66 @@
+import { User } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import UserGuard from "@/components/UserGuard";
+import useFirebase from "@/hooks/useFirebase";
+import useRedirectTo from "@/hooks/useRedirectTo";
 import authUser from "@/store/authUser";
-import ProfileImage from "@Image/profile.jpg";
 
-export default function User() {
+export default function edit() {
+  const [isOptionOpen, setOptionOpen] = useState<boolean>(false);
+  const { redirectPreviousPage } = useRedirectTo();
   const router = useRouter();
-  const user = useRecoilValue(authUser);
+  const { signOutUser } = useFirebase();
+  const user: User | null = useRecoilValue(authUser);
 
   return (
     <>
       <UserGuard>
         <div className="flex h-screen w-full flex-col">
-          <div className="mb-6 flex items-center justify-between border-b border-gray-300 px-6 py-2">
-            <h1 className="font-courgette text-sm">Chatpy</h1>
-            <p>
+          <div className="relative flex items-center border-b border-gray-300 px-6 py-3">
+            <button className="mr-2" onClick={redirectPreviousPage}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-5 w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5"
+                />
+              </svg>
+            </button>
+            <h1 className="font-klee font-medium">ユーザー情報の変更</h1>
+          </div>
+          <div className="relative mb-10 h-36 w-full bg-teal-900">
+            <p className="absolute -bottom-5 left-8">
               <Image
-                src={user?.photoURL!}
                 loader={() => user?.photoURL!}
+                src={user?.photoURL!}
                 alt="User Icon"
                 className="rounded-full object-cover"
-                width={32}
-                height={32}
+                width={64}
+                height={64}
                 referrerPolicy="no-referrer"
               />
             </p>
           </div>
-          <div>
-            <h2 className="mb-4 px-6 font-klee text-xs">メッセージ一覧</h2>
-            <ul>
-              <li>
-                <Link href="/user" className="flex px-6 py-2">
-                  <p className="mr-4">
-                    <Image
-                      src={ProfileImage}
-                      alt="SignIn Icon"
-                      className="h-8 w-8 rounded-full object-cover"
-                      priority
-                    />
-                  </p>
-                  <div>
-                    <h3 className="font-poppins text-base">Test</h3>
-                  </div>
-                  <p className="ml-auto text-xs text-gray-400">17:07</p>
-                </Link>
-              </li>
-            </ul>
+          <div className="px-10 text-right">
+            <input type="text" name="username" id="username" className="mb-4 w-full px-2 py-1 rounded font-klee text-xl outline outline-1 outline-gray-400 focus:outline-gray-400" placeholder={user ? user.displayName! : ""}/>
+            <textarea name="description" id="description" cols={30} rows={10} className="mb-4 w-full px-2 py-1 rounded font-klee text-sm outline outline-1 outline-gray-400 focus:outline-gray-400" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua."></textarea>
+            <div>
+              <button type="button" className="mr-4 font-klee text-sm text-gray-500">保存</button>
+              <button type="button" className="font-klee text-sm text-teal-500" onClick={redirectPreviousPage}>キャンセル</button>              
+            </div>
+
           </div>
           <ul className="mt-auto flex items-center justify-center border-t border-gray-300 px-6 py-2">
             <li className="mr-8">
